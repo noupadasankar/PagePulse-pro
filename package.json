@@ -7,7 +7,7 @@
     "build": "turbo run build",
     "test": "turbo run test",
     "test:ci": "turbo run test --filter=backend --filter=page-pulse-frontend",
-    "test:e2e": "playwright test",
+    "test:e2e": "playwright test -c tests/e2e/playwright.config.ts",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
     "typecheck": "turbo run typecheck"
