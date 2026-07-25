@@ -14,7 +14,7 @@ export function Footer() {
               <span className="font-bold text-xl tracking-tight">PagePulse Pro</span>
             </div>
             <p className="text-muted-foreground mb-6 max-w-sm">
-              Technical SEO Analyzer. Get instant insights to improve your website's performance and search rankings.
+              Technical SEO Analyzer. Get instant insights to improve your website&apos;s performance and search rankings.
             </p>
             <div className="flex gap-2">
               <span className="inline-flex items-center rounded-md bg-secondary px-2 py-1 text-xs font-medium text-secondary-foreground ring-1 ring-inset ring-secondary-foreground/10">v1.0.0</span>

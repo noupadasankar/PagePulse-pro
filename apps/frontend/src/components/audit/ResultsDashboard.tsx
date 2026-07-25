@@ -235,7 +235,7 @@ export default function ResultsDashboard({ data, onRetry }: ResultsDashboardProp
             ))
           ) : (
             <div className="col-span-full text-center py-12 border border-dashed rounded-2xl">
-              <p className="text-muted-foreground">No checks found for category "{selectedCategory}"</p>
+              <p className="text-muted-foreground">No checks found for category &quot;{selectedCategory}&quot;</p>
             </div>
           )}
         </div>

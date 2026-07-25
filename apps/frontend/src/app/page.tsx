@@ -117,11 +117,11 @@ export default function Page() {
               </div>
               
               <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight">
-                Analyze Any Page's <span className="gradient-text">SEO & Health</span>
+                Analyze Any Page&apos;s <span className="gradient-text">SEO & Health</span>
               </h1>
               
               <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
-                Get an instant breakdown of your website's performance, security, indexing, meta tags, and accessibility with zero sign-up.
+                Get an instant breakdown of your website&apos;s performance, security, indexing, meta tags, and accessibility with zero sign-up.
               </p>
 
               <div className="pt-4 max-w-xl mx-auto">
