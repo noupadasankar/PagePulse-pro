@@ -35,10 +35,25 @@ const corsOrigin =
       : '*';           // allow all in development
 
 app.use(cors({
-  origin: corsOrigin,
+  origin: [
+    "https://page-pulse-pro-frontend.vercel.app"
+  ],
   credentials: true,
+  methods: [
+    "GET",
+    "POST",
+    "PUT",
+    "DELETE",
+    "OPTIONS"
+  ],
+  allowedHeaders: [
+    "Content-Type",
+    "Authorization"
+  ],
   maxAge: 86400,
 }));
+
+app.options("*", cors());
 
 // 4. Request ID middleware
 app.use(requestId);
