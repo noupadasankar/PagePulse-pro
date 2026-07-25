@@ -2,12 +2,12 @@
 # syntax = docker/dockerfile:1.7
 
 # Build stage
-FROM node:20-alpine AS builder
+FROM node:22-alpine AS builder
 
 WORKDIR /app
 
 # Install pnpm
-RUN corepack enable && corepack prepare pnpm@9.0.0 --activate
+RUN corepack enable && corepack prepare pnpm@9.15.0 --activate
 
 # Copy package files for caching
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
@@ -15,20 +15,20 @@ COPY packages/shared-types/package.json ./packages/shared-types/
 COPY apps/backend/package.json ./apps/backend/
 
 # Install dependencies (including workspace packages)
-RUN pnpm install --no-frozen-lockfile
+RUN pnpm install --frozen-lockfile
 
 # Copy source code
 COPY packages/shared-types ./packages/shared-types
 COPY apps/backend ./apps/backend
 
 # Build shared types (install its deps first)
-RUN cd packages/shared-types && pnpm install --no-frozen-lockfile && pnpm run build
+RUN pnpm --filter=@pagepulse/shared-types run build
 
 # Build backend
 RUN pnpm --filter=backend run build
 
 # Production stage
-FROM node:20-alpine AS runner
+FROM node:22-alpine AS runner
 
 WORKDIR /app
 
@@ -37,7 +37,7 @@ RUN addgroup --system --gid 1001 nodejs && \
     adduser --system --uid 1001 nextjs
 
 # Install pnpm
-RUN corepack enable && corepack prepare pnpm@9.0.0 --activate
+RUN corepack enable && corepack prepare pnpm@9.15.0 --activate
 
 # Copy built artifacts
 COPY --from=builder --chown=nextjs:nodejs /app/packages/shared-types/dist ./packages/shared-types/dist
