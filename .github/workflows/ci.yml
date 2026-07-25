@@ -1,3 +1,4 @@
+# PagePulse Pro CI Pipeline Trigger
 name: CI
 
 on:
