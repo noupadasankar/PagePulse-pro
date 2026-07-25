@@ -222,26 +222,33 @@ jobs:
         env:
           PLAYWRIGHT_BASE_URL: http://localhost:3000
 
-  # Deploy to Vercel (frontend) - on main branch only if VERCEL_TOKEN is set
+  # Deploy to Vercel (frontend) - on main branch only
   deploy-frontend:
     name: Deploy Frontend to Vercel
     runs-on: ubuntu-latest
     needs: [build, e2e-test]
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push' && secrets.VERCEL_TOKEN != ''
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
     steps:
       - name: Checkout
+        if: ${{ env.VERCEL_TOKEN != '' }}
         uses: actions/checkout@v4
 
       - name: Install Vercel CLI
+        if: ${{ env.VERCEL_TOKEN != '' }}
         run: pnpm add -g vercel@latest
 
       - name: Pull Vercel Environment
+        if: ${{ env.VERCEL_TOKEN != '' }}
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Build Project Artifacts
+        if: ${{ env.VERCEL_TOKEN != '' }}
         run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Deploy to Vercel
+        if: ${{ env.VERCEL_TOKEN != '' }}
         run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
 
   # Deploy backend image to GitHub Container Registry (GHCR)
