@@ -157,6 +157,7 @@ jobs:
         with:
           name: frontend-dist
           path: apps/frontend/.next
+          include-hidden-files: true
           retention-days: 1
 
   # E2E tests - runs against built apps
@@ -206,8 +207,7 @@ jobs:
 
       - name: Start frontend
         run: |
-          cd apps/frontend
-          NODE_ENV=test PORT=3000 node apps/frontend/server.js &
+          pnpm --filter=page-pulse-frontend run start -p 3000 &
           sleep 5
 
       - name: Install Playwright
