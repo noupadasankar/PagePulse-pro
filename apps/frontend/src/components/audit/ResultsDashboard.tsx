@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 import ScoreGauge from './ScoreGauge';
 import MetricCard from './MetricCard';
 import { MetricStatus } from '@/lib/metric-helpers';
@@ -96,7 +97,7 @@ export default function ResultsDashboard({ data, onRetry }: ResultsDashboardProp
       {/* Header Bar */}
       <div className="flex flex-col md:flex-row items-center justify-between bg-card rounded-2xl p-4 shadow-sm border">
         <div className="flex items-center gap-3">
-          <img src={`https://www.google.com/s2/favicons?domain=${url}&sz=32`} alt="favicon" className="w-6 h-6 rounded-sm" />
+          <Image src={`https://www.google.com/s2/favicons?domain=${url}&sz=32`} alt="favicon" width={24} height={24} className="rounded-sm" unoptimized />
           <h2 className="text-lg font-semibold truncate max-w-[300px] sm:max-w-md" title={url}>{url}</h2>
           {finalUrl !== url && (
             <a href={finalUrl} target="_blank" rel="noopener noreferrer" className="text-xs text-muted-foreground hover:underline flex items-center gap-1">

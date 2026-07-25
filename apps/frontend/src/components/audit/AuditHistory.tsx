@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import { RotateCcw, Clock, Trash2, ArrowRight } from 'lucide-react';
 import { getStatusColor, getStatusLabel } from '@/lib/metric-helpers';
 
@@ -79,7 +80,7 @@ export default function AuditHistory({ entries = [], onReaudit }: AuditHistoryPr
                   >
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <img src={`https://www.google.com/s2/favicons?domain=${entry.url}&sz=16`} alt="" className="w-4 h-4 rounded-sm" />
+                        <Image src={`https://www.google.com/s2/favicons?domain=${entry.url}&sz=16`} alt="" width={16} height={16} className="rounded-sm" unoptimized />
                         <span className="font-medium truncate max-w-[200px] block" title={entry.url}>{entry.url}</span>
                       </div>
                     </td>
