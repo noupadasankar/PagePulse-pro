@@ -222,12 +222,12 @@ jobs:
         env:
           PLAYWRIGHT_BASE_URL: http://localhost:3000
 
-  # Deploy to Vercel (frontend) - on main branch only
+  # Deploy to Vercel (frontend) - on main branch only if VERCEL_TOKEN is set
   deploy-frontend:
     name: Deploy Frontend to Vercel
     runs-on: ubuntu-latest
     needs: [build, e2e-test]
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push' && secrets.VERCEL_TOKEN != ''
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -244,12 +244,15 @@ jobs:
       - name: Deploy to Vercel
         run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
 
-  # Deploy backend (example for Railway/Render/Fly.io)
+  # Deploy backend image to GitHub Container Registry (GHCR)
   deploy-backend:
     name: Deploy Backend
     runs-on: ubuntu-latest
     needs: [build, e2e-test]
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    permissions:
+      contents: read
+      packages: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -257,9 +260,12 @@ jobs:
       - name: Build Docker image
         run: docker build -f apps/backend/Dockerfile -t page-pulse-backend .
 
-      - name: Login to container registry
-        # Replace with your registry (GHCR, Docker Hub, etc.)
-        run: echo "${{ secrets.REGISTRY_PASSWORD }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Push Docker image
         run: |
