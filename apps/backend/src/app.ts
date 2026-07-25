@@ -20,9 +20,19 @@ app.use(helmet());
 app.use(compression());
 
 // 3. CORS
-const corsOrigin = config.NODE_ENV === 'production'
-  ? config.FRONTEND_URL
-  : config.FRONTEND_URL || '*';
+const allowedOrigins = (config.FRONTEND_URL || '')
+  .split(',')
+  .map((o) => o.trim())
+  .filter(Boolean);
+
+const corsOrigin =
+  config.NODE_ENV === 'production'
+    ? allowedOrigins.length > 0
+      ? allowedOrigins
+      : false          // block all cross-origin if not configured
+    : allowedOrigins.length > 0
+      ? allowedOrigins
+      : '*';           // allow all in development
 
 app.use(cors({
   origin: corsOrigin,
